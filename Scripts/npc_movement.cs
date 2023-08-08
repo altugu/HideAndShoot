@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class npc_movement : MonoBehaviour
 {
+    public Animator animator; 
     public GameObject player;
 
     private Enemy enemy;
@@ -35,6 +36,9 @@ public class npc_movement : MonoBehaviour
     void Start()
     {
         // TODO obstacle info in game manager
+        animator = GetComponent<Animator>();
+        animator.enabled = true;
+
         obstacles = GameObject.FindGameObjectsWithTag("Obstacles");
         obstacleCount = obstacles.Length;
 
@@ -109,10 +113,12 @@ public class npc_movement : MonoBehaviour
     // Fire bullet to direction that enemy face
     private void Fire()
     {
+        animator.SetBool("Shoot",true);
         GameObject bulletObject =
             Instantiate(bullet,
             enemy.bulletSpawnPosition.transform.position + new Vector3(0,Random.Range(0f,2f),0),
             enemy.bulletSpawnPosition.transform.rotation);
+        animator.SetBool("Shoot", false);
     }
 
     private IEnumerator OneSecond()
@@ -133,6 +139,7 @@ public class npc_movement : MonoBehaviour
 
     IEnumerator MoveToTarget()
     {
+        animator.SetBool("Run",true);
         Vector3 currentPosition = enemy.Position;
         Vector3 targetPosition = destination;
         Vector3 midpoint = new Vector3();
@@ -162,17 +169,16 @@ public class npc_movement : MonoBehaviour
         // if target is not aligned with our current position we either move x or z axis
         if (isCrossMove)
         {
+            midpoint.y = 0; 
             while (Vector3.Distance(enemy.Position, midpoint) > 0.1f)
             {
-                if(midpoint.y > 10) Debug.Log("error " + midpoint);
                 Vector3 direction = (midpoint - enemy.Position).normalized;
                 enemy.Position += direction * speed * Time.deltaTime;
                 yield return null;
             }
         }
-
-        if(targetPosition.y > 10) Debug.Log("error " + targetPosition);
-
+        
+        targetPosition.y = 0;
         while (Vector3.Distance(enemy.Position, targetPosition) > 0.1f //
         )
         {
@@ -188,7 +194,7 @@ public class npc_movement : MonoBehaviour
         enemy.State = Constants.EnemyState.IDLE;
         enemy.PrevState = Constants.EnemyState.PATROLLING;
         lastObstacleIndex = currentObstacleIndex;
-
+        animator.SetBool("Run",false);
         yield return null;
     }
 
