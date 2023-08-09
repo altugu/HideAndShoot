@@ -116,7 +116,7 @@ public class npc_movement : MonoBehaviour
         animator.SetBool("Shoot",true);
         GameObject bulletObject =
             Instantiate(bullet,
-            enemy.bulletSpawnPosition.transform.position + new Vector3(0,Random.Range(0f,2f),0),
+            enemy.bulletSpawnPosition.transform.position + new Vector3(0,Random.Range(-1f,1f),0),
             enemy.bulletSpawnPosition.transform.rotation);
         animator.SetBool("Shoot", false);
     }
