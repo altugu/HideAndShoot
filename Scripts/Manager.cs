@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Manager : MonoBehaviour
 {
@@ -16,12 +17,19 @@ public class Manager : MonoBehaviour
 
     System.Random random = new System.Random();
 
+    public TMP_Text scoreText;
+    public int score = 0;
+
     void Start()
     {
         // Copy the available spawn positions to the AvailableSpawnPositions list
         AvailableSpawnPositions = new List<Vector3>(SpawnPositions);
         StartCoroutine("Spawn");
         EnemyPrefab.SetActive(false);
+    }
+
+    void Update() {
+        scoreText.text = "Score: " + score;    
     }
 
     IEnumerator Spawn()

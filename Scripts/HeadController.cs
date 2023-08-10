@@ -5,6 +5,7 @@ using UnityEngine;
 public class HeadController : MonoBehaviour
 {
     EnemyController parentScript; // Declare the variable here to make it accessible in the class
+    public Manager manager;
 
     void Start()
     {
@@ -16,6 +17,8 @@ public class HeadController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Bullet"))
         {
+            manager.score += Constants.ENEMY_HEAD_DAMAGE * 100;
+
             parentScript.TakeDamage(Constants.ENEMY_HEAD_DAMAGE);
         }
 

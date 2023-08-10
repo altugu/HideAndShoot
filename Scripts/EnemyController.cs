@@ -6,6 +6,7 @@ using Unity.VisualScripting;
 public class EnemyController : MonoBehaviour
 {
     public int hp;
+    
 
     [SerializeField]
     GameObject self; // enemy
@@ -27,6 +28,7 @@ public class EnemyController : MonoBehaviour
 
         if (hp <= 0 && self != null)
         {
+
             manager.current_enemy_count--;
             Destroy (self);
         }
